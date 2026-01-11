@@ -76,11 +76,11 @@ pub fn check_devices() -> Result<()> {
         // ----------------------------
         println!();
         println!("-- Key Limits / Sizes --");
-        println!("  max_buffer_size              : {}", fmt_bytes(p.max_buffer_size.unwrap()));
+        print_opt_devsize("max_buffer_size", p.max_buffer_size);
         println!("  max_storage_buffer_range     : {}", fmt_bytes(p.max_storage_buffer_range as u64));
         println!("  max_uniform_buffer_range     : {}", fmt_bytes(p.max_uniform_buffer_range as u64));
-        println!("  max_push_constants_size      : {} bytes", p.max_push_constants_size);
-        println!("  max_memory_allocation_size   : {}", fmt_bytes(p.max_memory_allocation_size.unwrap() as u64));
+        print_u32("max_push_constants_size", p.max_push_constants_size);
+        print_opt_devsize("max_memory_allocation_size", p.max_memory_allocation_size);
         println!("  max_memory_allocation_count  : {}", p.max_memory_allocation_count);
 
         // ----------------------------
@@ -176,5 +176,24 @@ fn fmt_bytes(bytes: u64) -> String {
         format!("{:.2} KiB ({} bytes)", b / KIB, bytes)
     } else {
         format!("{} bytes", bytes)
+    }
+}
+
+fn print_opt_bytes(name: &str, v: Option<u64>) {
+    match v {
+        Some(x) => println!("  {:28}: {}", name, fmt_bytes(x)),
+        None => println!("  {:28}: N/A (extension / newer core not available)", name),
+    }
+}
+
+fn print_u32(name: &str, v: u32) {
+    println!("  {:28}: {}", name, v);
+}
+
+// 例: v が DeviceSize 型なら Option<u64> にするところは as u64 を挟む
+fn print_opt_devsize(name: &str, v: Option<vulkano::DeviceSize>) {
+    match v {
+        Some(x) => println!("  {:28}: {}", name, fmt_bytes(x as u64)),
+        None => println!("  {:28}: N/A (extension / newer core not available)", name),
     }
 }
