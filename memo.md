@@ -208,3 +208,73 @@
     Stage availability can depend on vertex_pipeline_stores_and_atomics / fragment_stores_and_atomics.
   * 64-bit atomic CAS needs shader_buffer_int64_atomics / shader_shared_int64_atomics (and related extension).
 ```
+
+# Jetson AGX Orin (64GB)
+```bash
+============================================================
+[0] NVIDIA Tegra Orin (nvgpu)  (IntegratedGpu)
+  api_version        : 1.3.251
+  driver_version     : 2264989696
+  driver_name        : NVIDIA
+  driver_info        : 540.4.0
+  device_id/vendor_id: 2545550295/4318
+
+-- Memory Heaps --
+  heap[0]: size=61.37 GiB (65893163008 bytes), flags=DEVICE_LOCAL (DEVICE_LOCAL)
+  heap[1]: size=872.00 MiB (914358272 bytes), flags=DEVICE_LOCAL (DEVICE_LOCAL)
+  -> total DEVICE_LOCAL (approx VRAM): 62.22 GiB (66807521280 bytes)
+
+-- Memory Types --
+  type[0]: heap_index=0, property_flags=DEVICE_LOCAL
+  type[1]: heap_index=0, property_flags=DEVICE_LOCAL | HOST_VISIBLE | HOST_COHERENT
+  type[2]: heap_index=0, property_flags=DEVICE_LOCAL | HOST_VISIBLE | HOST_COHERENT | HOST_CACHED
+  type[3]: heap_index=1, property_flags=DEVICE_LOCAL | PROTECTED
+
+-- Key Limits / Sizes --
+  max_buffer_size             : 1024.00 GiB (1099511562240 bytes)
+  max_storage_buffer_range     : 4.00 GiB (4294967295 bytes)
+  max_uniform_buffer_range     : 64.00 KiB (65536 bytes)
+  max_push_constants_size     : 256
+  max_memory_allocation_size  : 4.00 GiB (4292870144 bytes)
+  max_memory_allocation_count  : 4294967295
+
+-- Compute / Workgroup ("__shared"-like) --
+  max_compute_shared_memory_size : 48.00 KiB (49152 bytes)
+  max_compute_work_group_invocations : 1024
+  max_compute_work_group_size : [1024, 1024, 64] (x,y,z)
+  max_compute_work_group_count: [2147483647, 65535, 65535] (x,y,z)
+
+-- Alignment / Atom size (useful for mapping/SSBO) --
+  min_memory_map_alignment           : 64
+  non_coherent_atom_size             : 64
+  min_storage_buffer_offset_alignment: 16
+  min_uniform_buffer_offset_alignment: 64
+
+-- Shader integer support --
+  shader_int16 : YES
+  shader_int64 : YES
+  shader_float16: YES
+  shader_float64: YES
+
+-- Stores & Atomics in graphics stages (scope) --
+  vertex_pipeline_stores_and_atomics : YES
+  fragment_stores_and_atomics        : YES
+
+-- 64-bit integer atomics (for atomicCAS on 64-bit) --
+  shader_buffer_int64_atomics : YES
+  shader_shared_int64_atomics : YES
+  supported extension (hint)  : khr_shader_atomic_int64=YES
+
+-- Floating-point atomics --
+  shader_buffer_float32_atomic_add      : YES
+  shader_buffer_float32_atomic_min_max  : NO
+  shader_buffer_float64_atomic_add      : YES
+  shader_buffer_float64_atomic_min_max  : NO
+  shader_image_float32_atomic_add       : YES
+  shader_image_float32_atomic_min_max   : NO
+
+-- Notes (atomicCAS) --
+  * 32-bit integer atomic CAS (compare-exchange) is generally available in Vulkan shaders.
+    Stage availability can depend on vertex_pipeline_stores_and_atomics / fragment_stores_and_atomics.
+  * 64-bit atomic CAS needs shader_buffer_int64_atomics / shader_shared_int64_atomics (and related extension).
+```
